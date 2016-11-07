@@ -29,7 +29,7 @@ object MessageExpirationDriver extends CompletableApp(3) {
 
   purchaseRouter ! PlaceOrder("1", "11", 50.00, 1000)
   purchaseRouter ! PlaceOrder("2", "22", 250.00, 100)
-  purchaseRouter ! PlaceOrder("3", "33", 32.95, 10)
+  purchaseRouter ! PlaceOrder("3", "33", 32.95, 100)
 
   awaitCompletion
   println(s"MessageExpiration: is completed.")
