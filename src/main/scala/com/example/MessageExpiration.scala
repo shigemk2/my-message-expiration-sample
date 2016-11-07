@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit
 
 import akka.actor.Actor.Receive
 import akka.actor._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 import scala.concurrent.duration.Duration
 import scala.util.Random
