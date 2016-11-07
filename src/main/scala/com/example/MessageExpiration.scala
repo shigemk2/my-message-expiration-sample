@@ -13,5 +13,7 @@ trait ExpiringMessage {
   }
 }
 
+case class PlaceOrder(id: String, itemId: String, price: Double, timeToLive: Long) extends ExpiringMessage
+
 object MessageExpirationDriver extends CompletableApp(3) {
 }
