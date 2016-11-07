@@ -36,3 +36,19 @@ class PurchaseRouter(purchaseAgent: ActorRef) extends Actor {
       context.system.scheduler.scheduleOnce(duration, purchaseAgent, message)
   }
 }
+
+class PurchaseAgent extends Actor {
+  override def receive: Receive = {
+    case placeOrder: PlaceOrder =>
+      if (placeOrder.isExpired) {
+        context.system.deadLetters ! placeOrder
+        println(s"PurchaseAgent: delivered expired $placeOrder to dead letters")
+      } else {
+        println(s"PurchaseAgent: placing order for $placeOrder")
+      }
+
+      MessageExpirationDriver.completedStep()
+    case message: Any =>
+      println(s"PurchaseAgent: received unexpected: $message")
+  }
+}
