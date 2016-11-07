@@ -24,6 +24,15 @@ trait ExpiringMessage {
 case class PlaceOrder(id: String, itemId: String, price: Double, timeToLive: Long) extends ExpiringMessage
 
 object MessageExpirationDriver extends CompletableApp(3) {
+  val purchaseAgent = system.actorOf(Props[PurchaseAgent], "purchaseAgent")
+  val purchaseRouter = system.actorOf(Props(classOf[PurchaseRouter], purchaseAgent), "purchaseRouter")
+
+  purchaseRouter ! PlaceOrder("1", "11", 50.00, 1000)
+  purchaseRouter ! PlaceOrder("2", "22", 250.00, 100)
+  purchaseRouter ! PlaceOrder("3", "33", 32.95, 10)
+
+  awaitCompletion
+  println(s"MessageExpiration: is completed.")
 }
 
 class PurchaseRouter(purchaseAgent: ActorRef) extends Actor {
